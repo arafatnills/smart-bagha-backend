@@ -36,7 +36,7 @@ app.get(
 		try {
 			const user = await prisma.user.findMany({
 				where: {
-					role: "LEARNER",
+					role: "DONOR",
 				},
 			});
 
@@ -51,6 +51,14 @@ app.get(
 		}
 	},
 );
+
+app.get("/", (req: Request, res: Response) => {
+	res.json({
+		success: true,
+		status: status.OK,
+		message: "Welcome to backend server!",
+	});
+});
 
 // all APIs routes
 app.use("/api/v1/auth", AuthRoutes);
