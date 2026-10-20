@@ -1,0 +1,59 @@
+import dotenv from "dotenv";
+import path from "path";
+import { env } from "process";
+
+dotenv.config({ path: path.join(process.cwd(), ".env") });
+
+export default {
+	node_env: env.NODE_ENV,
+	port: env.PORT || 5000,
+	databaseUrl: env.DATABASE_URL!,
+	app_url: env.APP_URL || "http://localhost:5000",
+	app_url_client: env.APP_CLIENT || "http://localhost:3000",
+	app_client_deployed: env.APP_CLIENT_DEPLOYED || "https://smart-bagha.vercel.app",
+	bcrypt_salt_rounds: env.BCRYPT_SALT_ROUNDS!,
+	jwt_access_secret: env.JWT_ACCESS_SECRET!,
+	jwt_refresh_secret: env.JWT_REFRESH_SECRET!,
+	jwt_access_expire_in: env.JWT_ACCESS_EXPIRE_IN!,
+	jwt_refresh_expire_in: env.JWT_REFRESH_EXPIRE_IN!,
+
+	stripe_secret_key: env.STRIPE_SECRET_KEY!,
+	stripe_product_id: env.STRIPE_PRODUCT_ID!,
+	stripe_price_id: env.STRIPE_PRICE_ID!,
+	stripe_webhook_secret: env.STRIPE_WEBHOOK_SECRET!,
+
+	cloud_name: env.CLOUDINARY_CLOUD_NAME!,
+	cloud_api_key: env.CLOUDINARY_API_KEY!,
+	cloud_api_secret: env.CLOUDINARY_API_SECRET!,
+
+	google_client_id: env.GOOGLE_CLIENT_ID!,
+	google_client_secret: env.GOOGLE_CLIENT_SECRET!,
+
+	redis_user: env.REDIS_USER!,
+	redis_password: env.REDIS_PASSWORD!,
+	redis_host: env.REDIS_HOST!,
+	redis_port: env.REDIS_PORT!,
+
+	smtp_password: env.SMTP_PASSWORD!,
+	smtp_user: env.SMTP_USER!,
+	smtp_sender: env.SMTP_SENDER!,
+
+	cloudinary_cloud_name: env.CLOUDINARY_CLOUD_NAME!,
+	cloudinary_cloud_secret: env.CLOUDINARY_CLOUD_SECRET!,
+	cloudinary_cloud_api_key: env.CLOUDINARY_CLOUD_API_KEY!,
+
+	bkash_base_url: env.BKASH_BASE_URL!,
+	bkash_username: env.BKASH_USERNAME!,
+	bkash_password: env.BKASH_PASSWORD!,
+	bkash_app_key: env.BKASH_APP_KEY!,
+	bkash_app_secret: env.BKASH_APP_SECRET!,
+	bkash_callback_url: env.BKASH_CALLBACK_URL!,
+
+	// testing email pass
+	tester_admin_name: env.TESTER_ADMIN_NAME!,
+	tester_admin_email: env.TESTER_ADMIN_EMAIL!,
+	tester_admin_password: env.TESTER_ADMIN_PASSWORD!,
+	tester_donar_name: env.TESTER_DONAR_NAME!,
+	tester_donar_email: env.TESTER_DONAR_EMAIL!,
+	tester_donar_password: env.TESTER_DONAR_PASSWORD!,
+};

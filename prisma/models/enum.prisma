@@ -1,0 +1,142 @@
+enum UserRole {
+  USER
+  DONOR
+  ADMIN
+}
+
+enum AuthProvider {
+  GOOGLE
+  CREDENTIAL
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum BloodGroup {
+  A_POSITIVE  @map("A+")
+  A_NEGATIVE  @map("A-")
+  B_POSITIVE  @map("B+")
+  B_NEGATIVE  @map("B-")
+  AB_POSITIVE @map("AB+")
+  AB_NEGATIVE @map("AB-")
+  O_POSITIVE  @map("O+")
+  O_NEGATIVE  @map("O-")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+enum BloodRequestUrgency {
+  NORMAL
+  URGENT
+  EMERGENCY
+}
+
+enum BloodRequestStatus {
+  PENDING
+  IN_PROGRESS
+  FULFILLED
+  CANCELLED
+  EXPIRED
+}
+
+
+// ambulance
+enum AmbulanceType {
+  GENERAL
+  AC
+  ICU_SUPPORT
+  FREEZER
+}
+
+enum AmbulanceFareType {
+  FIXED
+  PER_KM
+  NEGOTIABLE
+}
+
+enum AmbulanceAvailabilityStatus {
+  AVAILABLE
+  ON_TRIP
+  UNAVAILABLE
+  MAINTENANCE
+}
+
+// Hospital & Doctor Enums
+enum HospitalType {
+  GOVERNMENT
+  PRIVATE
+  NGO
+  OTHER
+}
+
+enum DoctorDesignation {
+  PROFESSOR
+  ASSOCIATE_PROFESSOR
+  ASSISTANT_PROFESSOR
+  CONSULTANT
+  SENIOR_CONSULTANT
+  MEDICAL_OFFICER
+  RESIDENT_DOCTOR
+  OTHER
+}
+
+enum DayOfWeek {
+  SATURDAY
+  SUNDAY
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+}
+
+// . Diagnostic Lab Enums
+enum ReportDeliveryMethod {
+  ONLINE
+  PHYSICAL
+  BOTH
+}
+
+enum CollectionType {
+  LAB_VISIT
+  HOME_COLLECTION
+}
+
+enum Currency {
+  BDT
+  USD
+}
+
+// Notification Enums
+enum NotificationType {
+  BLOOD_REQUEST
+  DONOR_RESPONSE
+  REQUEST_STATUS_UPDATE
+  DONATION_REMINDER
+  APPOINTMENT_REMINDER
+  SYSTEM
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  PUSH
+}
+
+enum NotificationDeliveryStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+}
+
+enum DevicePlatform {
+  ANDROID
+  IOS
+  WEB
+}
