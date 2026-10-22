@@ -164,6 +164,38 @@ const verifyForgotPasswordOtp = catchAsync(
   },
 );
 
+// get me
+const getMe = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.user?.userId!
+  const user = await AuthServices.getMeQuery(userId);
+
+  sendResponse(res, {
+    success: true,
+    status: status.OK,
+    message: "User retrieved successfully",
+    data: user,
+  });
+});
+// generate accessToken using refreshToken
+export const refreshToken = catchAsync(async (req: Request, res: Response) => {
+  const refreshToken = req.cookies.refreshToken;
+  const { accessToken } = await AuthServices.genAccessTokenQuery(refreshToken);
+
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "none",
+    maxAge: 1000 * 60 * 60 * 24, // 1 days
+  });
+
+  sendResponse(res, {
+    success: true,
+    status: status.CREATED,
+    message: "Token refreshed successfully!",
+    data: { accessToken },
+  });
+});
+
 export const AuthControllers = {
   createUser,
   verifyUserEmail,
@@ -172,4 +204,6 @@ export const AuthControllers = {
   forgotPassword,
   resetPassword,
   verifyForgotPasswordOtp,
+  getMe,
+  refreshToken
 };

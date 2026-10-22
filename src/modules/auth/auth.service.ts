@@ -59,7 +59,7 @@ const createUserQuery = async (payload: CreateUserInterface) => {
     email,
     password: hashPassword,
     bloodGroup: payload.bloodGroup,
-    phone: payload.phone
+    phone: payload.phone,
   };
 
   await redisClient.set(
@@ -119,10 +119,9 @@ const verifyUserEmailQuery = async (payload: VerifyUserInterface) => {
 
   if (!redisOtp) throw new AppError(status.UNAUTHORIZED, "Invalid OPT");
 
-  if (redisOtp !== hashOtp(String(payload.otp).trim())){
+  if (redisOtp !== hashOtp(String(payload.otp).trim())) {
     throw new AppError(status.UNAUTHORIZED, "OTP does not match!.");
   }
-    
 
   await redisClient.del(userOtpKey);
 
@@ -413,6 +412,7 @@ const forgotPasswordQuery = async (payload: ForgotPasswordInterface) => {
   const html = await ejs.renderFile(templatePath, {
     otp,
     name: isExistsUser.name,
+    year: new Date().getFullYear(),
   });
 
   // sent otp via email
@@ -538,6 +538,66 @@ const verifyForgotPasswordOtpQuery = async (payload: VerifyUserInterface) => {
   };
 };
 
+// get me
+const getMeQuery = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    omit: { password: true },
+    include: { donar: true },
+  });
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, "User not found!");
+  }
+
+  if (user.status === "SUSPENDED") {
+    throw new AppError(status.FORBIDDEN, "User is suspended!");
+  }
+
+  if (user.status === "DELETED" || user.isDeleted) {
+    throw new AppError(status.NOT_FOUND, "User is deleted!");
+  }
+
+  return user;
+};
+
+// generate accessToken using refreshToken
+const genAccessTokenQuery = async (token: string) => {
+  const verifiedRefreshToken = await jwtUtils.verifyToken(
+    token,
+    config.jwt_refresh_secret,
+  );
+
+  if (!verifiedRefreshToken.success) {
+    throw new AppError(status.UNAUTHORIZED, verifiedRefreshToken.error);
+  }
+  const tokenId = verifiedRefreshToken.data?.id;
+  const user = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: tokenId,
+    },
+  });
+
+  if (user.status === 'SUSPENDED') {
+    throw new AppError(status.FORBIDDEN, "user is suspended!");
+  }
+
+  const jwtPayload = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = jwtUtils.createToken(
+    jwtPayload,
+    config.jwt_access_secret,
+    { expiresIn: config.jwt_access_expire_in } as SignOptions,
+  );
+
+  return { accessToken };
+};
+
 export const AuthServices = {
   createUserQuery,
   verifyUserEmailQuery,
@@ -546,4 +606,6 @@ export const AuthServices = {
   forgotPasswordQuery,
   resetPasswordQuery,
   verifyForgotPasswordOtpQuery,
+  getMeQuery,
+  genAccessTokenQuery
 };
