@@ -15,6 +15,14 @@ enum UserStatus {
   DELETED
 }
 
+enum PaymentStatus {
+  UNPAID
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
 enum BloodGroup {
   A_POSITIVE  @map("A+")
   A_NEGATIVE  @map("A-")

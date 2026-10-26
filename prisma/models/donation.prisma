@@ -1,0 +1,32 @@
+model Donation {
+  id                    String         @id @default(uuid())
+  userId                String        
+  user                  User          @relation(fields: [userId], references: [id], onUpdate: Cascade)
+  donorName             String        
+  isAnonymous           Boolean        @default(false)
+  message               String?        @db.VarChar(300)
+
+  amount                Decimal        @db.Decimal(12, 2)
+  currency              String         @default("BDT")
+
+  status                PaymentStatus @default(UNPAID)
+  failureReason         String?
+
+  // ---- bKash ----
+  merchantInvoiceNumber String         @unique 
+  paymentId             String?        @unique 
+  trxId                 String?        @unique       
+  bkashResponse         Json?       
+
+
+  refundTrxId           String?
+  refundedAmount        Decimal?       @db.Decimal(12, 2)
+  refundedAt            DateTime?
+
+  paidAt                DateTime?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+}

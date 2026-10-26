@@ -19,6 +19,7 @@ model User {
   updatedAt       DateTime     @updatedAt
   admin           Admin?
   donar           Donar?
+  donation        Donation[]
 
   @@map("users")
 }
